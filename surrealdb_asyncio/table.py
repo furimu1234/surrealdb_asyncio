@@ -52,7 +52,7 @@ class BaseTable(BaseModel):
         ) as session:
             async with session.post(
                 self.db + "/sql",
-                data=sql.replace(",;", ";").replace("\n;", ";"),
+                data=sql,
                 headers=headers,
             ) as response:
                 response_data = await response.json()
