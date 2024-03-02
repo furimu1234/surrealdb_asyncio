@@ -24,7 +24,7 @@
 `poetry add dir/surrealdb_asyncio-0.0.1-py3-none-any.whl`
 ## タスク
 - [x] 最初のコミット
-- [ ] リファクタリング
+- [x] リファクタリング
 - [ ] docstring追記
 - [ ] サンプル作成
 - [ ] テストケース作成
