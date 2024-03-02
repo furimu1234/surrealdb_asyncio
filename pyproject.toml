@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "surrealdb-asyncio"
+version = "0.0.1"
+description = "surrealdbのasyncioのみに対応したライブラリ"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.6.3"
+aiohttp = "^3.9.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
