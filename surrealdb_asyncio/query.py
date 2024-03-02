@@ -145,7 +145,7 @@ class Query:
                 break
             __type = __type.sub_type
 
-        self.__query += f"DEFINE FIELD {col.name} ON TABLE{table_name} TYPE {str(_type).lower().replace("<>", "")}"
+        self.__query += f"DEFINE FIELD {col.name} ON TABLE{table_name} TYPE {str(_type).lower().replace('<>', '')}"
 
     def to_string(self):
         return (
