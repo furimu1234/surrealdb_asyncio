@@ -7,8 +7,10 @@ import aiohttp
 from pydantic import BaseModel, Field, model_validator
 
 from ._types import ManyResultResponseType, OneResultResponseType
+
 try:
     from dotenv import load_dotenv
+
     load_dotenv()
 except ImportError:
     pass
@@ -37,6 +39,16 @@ class BaseTable(BaseModel):
 
     @model_validator(mode="after")
     def create_table_name(self) -> Self:
+        """インスタンス化した後にテーブル名の値を変更する
+
+        クラス名を小文字にし、idに値があれば、:とidの値をtable_nameに追加する
+
+        Returns
+        -------
+        Self
+            _description_
+        """
+
         self.table_name = self.__class__.__qualname__.lower()
 
         if self.id is not None:
@@ -45,6 +57,23 @@ class BaseTable(BaseModel):
         return self
 
     async def executes(self, sql: str) -> ManyResultResponseType:
+        """sqlを実行する
+
+        Parameters
+        ----------
+        sql : str
+            任意のsql
+
+        Returns
+        -------
+        ManyResultResponseType
+            resultがリスト
+
+        Raises
+        ------
+        Exception
+            エラー
+        """
         headers = {"Accept": "application/json", "ns": self.ns, "db": self.db}
 
         async with aiohttp.ClientSession(
@@ -63,6 +92,19 @@ class BaseTable(BaseModel):
                     return response_data[0]
 
     async def execute(self, sql: str) -> OneResultResponseType:
+        """sqlを実行する
+
+        Parameters
+        ----------
+        sql : str
+            任意のsql
+
+        Returns
+        -------
+        OneResultResponseType
+            resultに1つだけ値が入ってる
+        """
+
         response = await self.executes(sql)
         return {
             "code": response.get("code", ""),

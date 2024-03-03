@@ -112,10 +112,10 @@ class Query:
         self.__query += f"CREATE {table.table_name} SET "
 
     def update(self, table: BaseTable):
-        self.__query += f"UPDATE ONLY {table.table_name} SET "
+        self.__query += f"UPDATE {table.table_name} SET "
 
     def delete(self, table: BaseTable):
-        self.__query += f"DELETE ONLY {table.table_name}"
+        self.__query += f"DELETE {table.table_name}"
 
     def original(self, original_sql: str):
         self.__query += original_sql

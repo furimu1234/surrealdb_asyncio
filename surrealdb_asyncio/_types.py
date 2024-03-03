@@ -23,6 +23,8 @@ __all__ = (
 
 
 class ManyResultResponseType(TypedDict):
+    """resultがリストで返ってくる時の型"""
+
     result: list[dict]
     time: str
     code: int | None
@@ -30,6 +32,8 @@ class ManyResultResponseType(TypedDict):
 
 
 class OneResultResponseType(TypedDict):
+    """resultがdictで返ってくる時の型"""
+
     result: dict
     time: str
     code: int | None

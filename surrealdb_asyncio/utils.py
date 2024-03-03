@@ -25,33 +25,40 @@ log = logging.getLogger(__name__)
 
 
 def log_sql(q: Query, _type: str):
+    """実行するsqlのログ"""
     log.debug(f"======DEBUG {_type}======")
     log.debug(q.to_string())
     log.debug("=============")
 
 
 def log_select(q: Query):
+    """ログ"""
     log_sql(q, "SELECT")
 
 
 def log_insert(q: Query):
+    """ログ"""
     log_sql(q, "INSERT")
 
 
 def log_update(q: Query):
+    """ログ"""
     log_sql(q, "UPDATE")
 
 
 def log_delete(q: Query):
+    """ログ"""
     log_sql(q, "DELETE")
 
 
 def log_res(res):
+    """レスポンスログ"""
     log.debug(res)
     log.debug("=============")
 
 
 def validate(v: DBType, info: ValidationInfo):
+    """pydantic BaseModelでstrやdictに変換できない型を定義する用"""
     return v
 
 
