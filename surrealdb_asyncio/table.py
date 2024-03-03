@@ -33,9 +33,10 @@ class BaseTable(BaseModel):
     id: str | int | None = Field(default=None, exclude=True)
     ns: str = Field(default="test", exclude=True)
     db: str = Field(default="test", exclude=True)
-    db: str = Field(default=DB, exclude=True)
+    host: str = Field(default=DB, exclude=True)
     user: str = Field(default=USER, exclude=True)
     password: str = Field(default=PASSWORD, exclude=True)
+    is_none: bool = Field(default=True, exclude=True)
 
     @model_validator(mode="after")
     def create_table_name(self) -> Self:
@@ -80,7 +81,7 @@ class BaseTable(BaseModel):
             auth=aiohttp.BasicAuth(login=self.user, password=self.password)
         ) as session:
             async with session.post(
-                self.db + "/sql",
+                self.host + "/sql",
                 data=sql,
                 headers=headers,
             ) as response:
