@@ -36,6 +36,7 @@ class BaseTable(BaseModel):
     db: str = Field(default=DB, exclude=True)
     user: str = Field(default=USER, exclude=True)
     password: str = Field(default=PASSWORD, exclude=True)
+    is_none: bool = Field(default=True, exclude=True)
 
     @model_validator(mode="after")
     def create_table_name(self) -> Self:
