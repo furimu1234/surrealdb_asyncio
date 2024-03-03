@@ -73,6 +73,54 @@ class VcStats(commands.Cog):
         self.bot = bot
         self.connect_time_cache = {}
 
+    def convert_str_usertime(self, td: float):
+        days = td // (24 * 3600)
+        remaining_seconds = td % (24 * 3600)
+
+        hours = remaining_seconds // 3600
+        remaining_seconds %= 3600
+
+        minutes = remaining_seconds // 60
+        seconds = remaining_seconds % 60
+
+        return f"{days:.0f}日 {hours:.0f}時間{minutes:.0f}分{seconds:.0f}秒"
+
+    @commands.hybrid_command(name="接続時間確認")
+    async def show(self, ctx: commands.Context):
+        """コマンド送信者の接続時間を表示する"""
+        if not ctx.guild:
+            return
+
+        db = VC_Stats(id=ctx.author.id)
+        db.server_id.set_value(ctx.guild.id)
+
+        await db.fetch()
+
+        desc = f"### {ctx.author.mention}の接続時間\n"
+
+        desc += f"`{self.convert_str_usertime(db.connect_time.get_value())}`"
+
+        e = discord.Embed(description=desc)
+
+        await ctx.send(embeds=[e])
+
+    @commands.hybrid_command(name="接続時間リセット")
+    async def reset(self, ctx: commands.Context):
+        """コマンド送信者の接続時間をリセットする"""
+        if not ctx.guild:
+            return
+
+        db = VC_Stats(id=ctx.author.id)
+        db.server_id.set_value(ctx.guild.id)
+
+        await db.delete()
+
+        e = discord.Embed(
+            description=f"{ctx.author.mention}の接続時間をリセットしました。",
+            color=discord.Color.red(),
+        )
+        await ctx.send(embeds=[e])
+
     @commands.Cog.listener()
     async def on_voice_state_update(
         self,
